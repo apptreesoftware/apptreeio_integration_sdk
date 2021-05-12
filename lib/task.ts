@@ -54,7 +54,11 @@ export function createTaskHandler<T, U>(
     try {
       const res = await taskFunction(taskData, job);
       resp.send(res);
-      await job.success(res);
+      if (res.success) {
+        await job.success(res);
+      } else {
+        await job.fail(res);
+      }
     } catch (e) {
       console.error(e);
       await job.fail({
