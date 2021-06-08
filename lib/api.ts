@@ -9,13 +9,14 @@ export interface JobAPI {
   logHttpRequest(httpRequest: HttpLogRequest): Promise<void>;
   logHttpResponse(httpResponse: HttpLogResponse): Promise<void>;
   logRecord(logRecord: LogRecordRequest): Promise<void>;
+  updateJobConfig(updateConfigRequest: UpdateConfigRequest) : Promise<void>;
 }
 
 export class RemoteAPI implements JobAPI {
   private axios: AxiosInstance;
   constructor(apiKey: string) {
     this.axios = newAxios.create({
-      baseURL: "https://assistants.apptreeio.com",
+      baseURL: "https://assistants.ngrok.io",
       headers: {
         Authorization: apiKey,
       },
@@ -83,6 +84,10 @@ export class RemoteAPI implements JobAPI {
       console.error(`Unable to log record: ${e}`);
     }
   }
+
+  async updateJobConfig(updateConfigRequest: UpdateConfigRequest): Promise<void> {
+    await this.axios.post('integration/jobs/updateConfig', updateConfigRequest);
+  }
 }
 
 export interface JobEndRequest {
@@ -128,6 +133,12 @@ export interface LogRecordRequest {
   record: any;
   message?: string;
   status: "success" | "fail";
+}
+
+
+export interface UpdateConfigRequest {
+  jobId: number;
+  updates: JSONValue
 }
 
 export interface ExceptionRequest {

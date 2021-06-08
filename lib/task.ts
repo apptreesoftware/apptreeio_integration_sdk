@@ -4,9 +4,9 @@ import { Job } from "./job";
 export interface TaskResponse {
   success: boolean;
   message?: string;
-  data?: { [prop: string]: any };
-  totalRecords: number;
-  failedRecords: number;
+  data?: any;
+  totalRecords?: number;
+  failedRecords?: number;
 }
 export interface TaskData<T = any, U = any> {
   project: string;

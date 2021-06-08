@@ -1,4 +1,4 @@
-import { JobAPI, LogRecordRequest } from "./api";
+import {JobAPI, JSONValue, LogRecordRequest, UpdateConfigRequest} from "./api";
 import StackUtils from "stack-utils";
 import * as winston from "winston";
 import Transport from "winston-transport";
@@ -53,6 +53,19 @@ export class Job {
 
   logError(msg: string): void {
     this._logger.log("error", msg);
+  }
+
+  async updateConfig(updates: JSONValue) {
+    const req: UpdateConfigRequest = {
+      updates: updates,
+      jobId: this.jobId
+    }
+    try {
+      await this.api.updateJobConfig(req);
+    } catch (e) {
+      console.error(e);
+      this._logger.log("error", `Unable to update config with values: ${JSON.stringify(req.updates)}`);
+    }
   }
 
   async logRecord(request: Omit<LogRecordRequest, "jobId">): Promise<void> {
