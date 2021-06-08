@@ -16,7 +16,7 @@ export class RemoteAPI implements JobAPI {
   private axios: AxiosInstance;
   constructor(apiKey: string) {
     this.axios = newAxios.create({
-      baseURL: "https://assistants.ngrok.io",
+      baseURL: "https://assistants.apptreeio.com",
       headers: {
         Authorization: apiKey,
       },
