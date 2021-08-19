@@ -14,9 +14,10 @@ export interface JobAPI {
 
 export class RemoteAPI implements JobAPI {
   private axios: AxiosInstance;
+  static RemoteBaseUrl = "https://assistants.apptreeio.com";
   constructor(apiKey: string) {
     this.axios = newAxios.create({
-      baseURL: "https://assistants.apptreeio.com",
+      baseURL: RemoteAPI.RemoteBaseUrl,
       headers: {
         Authorization: apiKey,
       },
